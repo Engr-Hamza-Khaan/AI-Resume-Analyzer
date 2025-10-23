@@ -1,9 +1,11 @@
 const constants = {
-  ANALYZE_RESUME_PROMPT: `First, determine if this document is actually a resume. Look for:
-- Professional experience, work history, or employment information
-- Education background, degrees, or academic information  
-- Skills, qualifications, or professional competencies
-- Contact information and personal details
+  ANALYZE_RESUME_PROMPT: `First Determine if the uploaded document is a resume.
+        Proceed even if only one of the following sections is present.
+        A resume is valid if it contains any of these:
+        - Professional Experience / Work History / Employment
+        - Education or Academic Background
+        - Skills, Qualifications, or Technical Competencies
+        - Contact Information (name, email, phone, etc.)
 
 If this is NOT a resume (e.g., invoice, receipt, contract, article, manual, etc.), respond with:
 {

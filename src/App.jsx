@@ -83,21 +83,48 @@ function App() {
 
     setUploadFile(file);
     setIsLoading(true);
-    setAnalysis(null);
-    setResumeText("");
-    setPresenceChecklist([]);
+    // setAnalysis(null);
+    // setResumeText("");
+    // setPresenceChecklist([]);
+
+    // try {
+    //   const text = await extractPDFText(file);
+    //   setResumeText(text);
+    //   setPresenceChecklist(buildPresenceChecklist(text));
+    //   setAnalysis(await analyzeResume(text));
+    // } catch (error) {
+    //   alert(`Error: ${error.message}`);
+    //   reset();
+    // } finally {
+    //   setIsLoading(false);
+    // }
 
     try {
+      console.log("📥 Inside try block");
+
       const text = await extractPDFText(file);
+      console.log("✅ Step 1: PDF text extracted:", text?.slice(0, 100));
+
+      const checklist = buildPresenceChecklist(text);
+      console.log("✅ Step 2: Presence checklist:", checklist);
+
+      const analysisResult = await analyzeResume(text);
+      console.log("✅ Step 3: AI analysis result:", analysisResult);
+
       setResumeText(text);
-      setPresenceChecklist(buildPresenceChecklist(text));
-      setAnalysis(await analyzeResume(text));
+      setPresenceChecklist(checklist);
+      setAnalysis(analysisResult);
+
+      console.log("🎯 Step 4: All states updated successfully");
     } catch (error) {
-      alert(`Error: ${error.message}`);
+      console.error("🧨 Full error object:", error);
+      alert(`Error: ${error?.message || "Unknown error occurred"}`);
       reset();
     } finally {
+      console.log("🕓 Finally block executed");
       setIsLoading(false);
     }
+
   };
 
   const reset = () => {
@@ -280,12 +307,12 @@ function App() {
                     </>
                   ) : (
                     <div className="list-item-orange">
-                        <span className="text-orange-400 text-sm mt-0.5">•</span>
-                        <span className="text-slate-200 font-medium text-sm leading-relaxed">
-                          <strong className="text-orange-300">Status:</strong> Fresher
-                        </span>
+                      <span className="text-orange-400 text-sm mt-0.5">•</span>
+                      <span className="text-slate-200 font-medium text-sm leading-relaxed">
+                        <strong className="text-orange-300">Status:</strong> Fresher
+                      </span>
                     </div>
-                    
+
                   )}
                 </div>
               </div>
@@ -293,7 +320,7 @@ function App() {
 
 
             {/* STRENGTHS & IMPROVEMENT SECTION */}
-            {/* <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4">
               <div className="feature-card-green group">
                 <div className="bg-green-500/20 icon-container-lg mx-auto mb-3
                   group-hover:bg-green-400/30 transition-colors">
@@ -332,7 +359,7 @@ function App() {
                   ))}
                 </div>
               </div>
-            </div> */}
+            </div>
             {/* EXECUTIVE SUMMARY SECTION */}
             <div className="section-card group">
               <div className="flex items-center gap-3 mb-4">
